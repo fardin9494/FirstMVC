@@ -22,10 +22,17 @@ namespace AtriyaMVC.Controllers
         {
             return View();
         }
-
+        [HttpGet]
         public IActionResult Contact()
         {
             return View();
+        }
+
+
+        [HttpPost]
+        public StatusCodeResult Contact(ContactForm Form)
+        {
+            return Ok();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
