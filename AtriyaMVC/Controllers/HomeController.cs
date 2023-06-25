@@ -25,7 +25,8 @@ namespace AtriyaMVC.Controllers
         [HttpGet]
         public IActionResult Contact()
         {
-            return View();
+            ContactForm Contact = new ContactForm();
+            return View(Contact);
         }
 
 
