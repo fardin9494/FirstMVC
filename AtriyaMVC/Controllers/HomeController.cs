@@ -31,9 +31,19 @@ namespace AtriyaMVC.Controllers
 
 
         [HttpPost]
-        public StatusCodeResult Contact(ContactForm Form)
+        public IActionResult Contact(ContactForm Form)
         {
-            return Ok();
+            if (ModelState.IsValid == false)
+            {
+                ViewBag.Error = "اطلاعات شما صحیح نمیباشد";
+                return View(Form);
+            }
+            else
+            {
+                ViewBag.success = "اطلاعات با موفقیت ثبت شد";
+                return View();
+            }
+            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
