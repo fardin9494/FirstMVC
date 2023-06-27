@@ -6,17 +6,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AtriyaMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly List<Services> servicesList = new List<Services>()
         {
-            _logger = logger;
-        }
+            new Services(1, "نقره ای"),
+            new Services(2, "طلایی"),
+            new Services(3, "پلاتین"),
+            new Services(4, "الماس")
+        };
 
         public IActionResult Index()
         {
@@ -25,7 +27,10 @@ namespace AtriyaMVC.Controllers
         [HttpGet]
         public IActionResult Contact()
         {
-            ContactForm Contact = new ContactForm();
+            ContactForm Contact = new ContactForm()
+            {
+                ServiceList = new SelectList(servicesList,"Id","Value")
+            };
             return View(Contact);
         }
 
@@ -33,6 +38,8 @@ namespace AtriyaMVC.Controllers
         [HttpPost]
         public IActionResult Contact(ContactForm Form)
         {
+            Form.ServiceList = new SelectList(servicesList, "Id", "Value");
+
             if (ModelState.IsValid == false)
             {
                 ViewBag.Error = "اطلاعات شما صحیح نمیباشد";
@@ -40,8 +47,14 @@ namespace AtriyaMVC.Controllers
             }
             else
             {
+                ModelState.Clear();
+                ContactForm Contact = new ContactForm()
+                {
+                    ServiceList = new SelectList(servicesList,"Id","Value")
+                };
+
                 ViewBag.success = "اطلاعات با موفقیت ثبت شد";
-                return View();
+                return View(Contact);
             }
             
         }
